@@ -2,7 +2,7 @@
     ViewBag.Title = "GitHub User Viewer - MVC";
 }
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-12">
         <div class="jumbotron mt-5">
             <h1 class="display-4">GitHub User Viewer</h1>
             <p class="lead">
@@ -12,26 +12,23 @@
         </div>
     </div>
 </div>
-<div class
+
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-            a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-            is an ideal platform for building RESTful applications on the .NET Framework.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
+    <div class="col-12 text-center">
+        <hr class="mb-4 mt-0">
+        @using (Ajax.BeginForm("GetUser", "User", new AjaxOptions { UpdateTargetId = "userData" }, new { @class = "form-inline justify-content-center" }))
+        {
+            @Html.AntiForgeryToken()
+            <label class="sr-only" for="username">Username</label>
+            @Html.TextBox("username", null, new { @class = "form-control mr-sm-2", @id = "username", @placeholder = "Username" })
+            <label class="form-check-label mr-sm-2" for="includeRepos">Include Repositories</label>
+            @Html.CheckBox("includeRepos", true, new { @class = "form-check-input mr-sm-2", @id = "includeRepos" })
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        }
+        <hr class="my-4">
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
-    </div>
+</div>
+<div id="userData">
+
 </div>
 

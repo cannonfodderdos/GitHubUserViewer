@@ -9,6 +9,6 @@ namespace Core.Domain.Interfaces
     public interface IGitHubService
     {
         Task<User> GetUser(string username);
-        Task<ICollection<Repo>> GetRepos(string url);
+        Task<List<Repo>> GetRepos(string url);
     }
 }

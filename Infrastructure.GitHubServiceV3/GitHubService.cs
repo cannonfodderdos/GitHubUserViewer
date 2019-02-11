@@ -44,6 +44,7 @@ namespace Infrastructure.GitHubServiceV3
                 // Convert to domain entity and return
                 return new User(
                     gitHubUser.Id,
+                    gitHubUser.Login,
                     gitHubUser.Avatar,
                     gitHubUser.Name,
                     gitHubUser.Repos_URL);
@@ -58,7 +59,7 @@ namespace Infrastructure.GitHubServiceV3
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public async Task<ICollection<Repo>> GetRepos(string url)
+        public async Task<List<Repo>> GetRepos(string url)
         {
             var response = await _client.GetAsync(url);
             string responseBody = await response.Content.ReadAsStringAsync();

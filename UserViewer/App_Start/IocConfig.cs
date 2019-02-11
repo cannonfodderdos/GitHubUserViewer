@@ -25,6 +25,9 @@ namespace UserViewer
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
 
+            // Register automapper module
+            builder.RegisterModule(new Mapping.AutoMapperModule());
+
             // Single instance so that HTTP Client doesn't exhaust available sockets
             builder.RegisterType<GitHubService>()
                 .As<IGitHubService>()

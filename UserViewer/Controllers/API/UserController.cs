@@ -1,4 +1,5 @@
-﻿using Core.ApplicationServices;
+﻿using AutoMapper;
+using Core.ApplicationServices;
 using Core.Common;
 using System;
 using System.Collections.Generic;
@@ -8,16 +9,19 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Tracing;
+using UserViewer.ViewModels;
 
 namespace UserViewer.Controllers.API
 {
     public class UserController : ApiController
     {
         private UserService _service;
+        private IMapper _mapper;
 
-        public UserController(UserService service)
+        public UserController(UserService service, IMapper mapper)
         {
             _service = service;
+            _mapper = mapper;
         }
 
         // GET: /api/user/:username
@@ -27,7 +31,8 @@ namespace UserViewer.Controllers.API
             try
             {
                 var result = await _service.GetUser(username, includeRepos);
-                return Ok(result);
+                var user = _mapper.Map<UserViewModel>(result);
+                return Ok(user);
             }
             catch(ApiException ex)
             {
