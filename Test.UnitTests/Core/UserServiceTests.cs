@@ -2,17 +2,16 @@
 using Core.Common;
 using Core.Domain.Interfaces;
 using Core.Domain.Entities;
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net;
-using Test;
 
-namespace UnitTests
+namespace Test.UnitTests.Core
 {
     [TestClass]
-    public class ApplicationServices
+    public class UserServiceTests
     {
         [TestMethod]
         public async Task GetUser_ShouldReturnUserWithRepos()

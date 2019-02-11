@@ -60,12 +60,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationServices.cs" />
-    <Compile Include="Controllers.cs" />
+    <Compile Include="Core\UserServiceTests.cs" />
+    <Compile Include="Controllers\API\UserControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestGitHubService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +86,9 @@
       <Project>{24be29be-2359-4b98-8584-feb69629d431}</Project>
       <Name>UserViewer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\Web\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

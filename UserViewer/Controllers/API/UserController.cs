@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Tracing;
 
-namespace UserViewer.Controllers
+namespace UserViewer.Controllers.API
 {
     public class UserController : ApiController
     {

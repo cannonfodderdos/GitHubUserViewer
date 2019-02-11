@@ -8,7 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Test
+namespace Test.UnitTests
 {
     /// <summary>
     /// IGitHubService with test data
