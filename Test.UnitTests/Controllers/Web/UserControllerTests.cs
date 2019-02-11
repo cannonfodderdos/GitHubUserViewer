@@ -9,13 +9,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using System.Web.Http;
 using System.Web.Http.Results;
 using Test.UnitTests.Mocks;
-using UserViewer.Controllers.API;
+using UserViewer.Controllers.Web;
 using UserViewer.ViewModels;
 
-namespace Test.UnitTests.Controllers.API
+namespace Test.UnitTests.Controllers.Web
 {
     /// <summary>
     /// Unit Tests for UserViewer.Controllers.UserController
@@ -26,7 +27,21 @@ namespace Test.UnitTests.Controllers.API
         private UserService _userService = new UserService(new TestGitHubService());
 
         [TestMethod]
-        public async Task GetUser_ShouldReturnUserWithRepos()
+        public void UserControllerIndex()
+        {
+            // Arrange
+            var mapper = MockBuilder.BuildIMapper();
+            UserController controller = new UserController(_userService, mapper.Object);
+
+            // Act
+            var index = controller.Index();
+
+            // Assert
+            Assert.IsInstanceOfType(index, typeof(ViewResult));
+        }
+
+        [TestMethod]
+        public async Task GetUser_ShouldReturnPartialViewWithUserAndRepos()
         {
             // Arrange
             var mapper = MockBuilder.BuildIMapper();
@@ -34,18 +49,16 @@ namespace Test.UnitTests.Controllers.API
             string username = "robconery";
 
             // Act
-            IHttpActionResult actionResult = await controller.Get(username, true);
-            var contentResult = actionResult as OkNegotiatedContentResult<UserViewModel>;
+            PartialViewResult result = await controller.GetUser(username, true);
+            UserViewModel model = result.Model as UserViewModel;
 
             // Assert
-            Assert.IsNotNull(contentResult);
-            Assert.IsNotNull(contentResult.Content);
-            Assert.IsInstanceOfType(contentResult.Content, typeof(UserViewModel));
-            Assert.IsTrue(contentResult.Content.Repos.Count > 0);
+            Assert.IsNotNull(model);
+            Assert.IsTrue(model.Repos.Count > 0);
         }
 
         [TestMethod]
-        public async Task GetUser_ShouldReturnUserWithoutRepos()
+        public async Task GetUser_ShouldReturnPartialViewWithUserAndNoRepos()
         {
             // Arrange
             var mapper = MockBuilder.BuildIMapper();
@@ -53,16 +66,16 @@ namespace Test.UnitTests.Controllers.API
             string username = "robconery";
 
             // Act
-            IHttpActionResult actionResult = await controller.Get(username, false);
-            var contentResult = actionResult as OkNegotiatedContentResult<UserViewModel>;
+            PartialViewResult result = await controller.GetUser(username, false);
+            UserViewModel model = result.Model as UserViewModel;
 
             // Assert
-            Assert.AreEqual(username, contentResult.Content.Name);
-            Assert.IsNull(contentResult.Content.Repos);
+            Assert.IsNotNull(model);
+            Assert.IsNull(model.Repos);
         }
 
         [TestMethod]
-        public async Task GetUser_NotFoundResult()
+        public async Task GetUser_EmptyPartialViewAndViewBagError()
         {
             // Arrange
             var mapper = MockBuilder.BuildIMapper();
@@ -70,10 +83,11 @@ namespace Test.UnitTests.Controllers.API
             string username = "doesntexist";
 
             // Act
-            IHttpActionResult actionResult = await controller.Get(username, false);
+            PartialViewResult result = await controller.GetUser(username, false);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(NotFoundResult));
+            Assert.IsNull(result.Model);
+            Assert.IsNotNull(result.ViewBag.Error);
         }
     }
 }

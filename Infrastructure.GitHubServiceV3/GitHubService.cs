@@ -44,9 +44,9 @@ namespace Infrastructure.GitHubServiceV3
                 // Convert to domain entity and return
                 return new User(
                     gitHubUser.Id,
-                    gitHubUser.Login,
                     gitHubUser.Avatar,
-                    gitHubUser.Name,
+                    gitHubUser.Name == null ? gitHubUser.Login : gitHubUser.Name,
+                    gitHubUser.Location,
                     gitHubUser.Repos_URL);
                 
             }
@@ -77,7 +77,8 @@ namespace Infrastructure.GitHubServiceV3
                     repos.Add(new Repo(
                         repo.Name,
                         repo.URL,
-                        repo.StargazersCount));
+                        repo.StargazersCount,
+                        repo.WatchersCount));
                 }
 
                 return repos;

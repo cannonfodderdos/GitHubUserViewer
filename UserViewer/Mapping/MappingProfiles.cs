@@ -12,9 +12,7 @@ namespace UserViewer.Mapping
     {
         public MappingProfiles()
         {
-            CreateMap<User, UserViewModel>()
-                .ForMember(x => x.Name, y => y.MapFrom(z => z.Name == null ? z.Login : z.Name)); // If name is null change to username.
-
+            CreateMap<User, UserViewModel>();
             CreateMap<Repo, RepoViewModel>();
         }
     }

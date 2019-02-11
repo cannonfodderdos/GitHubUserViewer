@@ -1,0 +1,13 @@
+﻿@model UserViewer.ViewModels.RepoViewModel
+
+<div class="col-12 col-sm-6">
+    <div class="card mb-2">
+        <div class="card-body">
+            <h5 class="card-title">@Html.DisplayFor(model => model.Name)</h5>
+            <p class="card-text">
+                <a href="@Model.URL" title="Repository URL" target="_blank">@Model.URL</a>
+            </p>
+            <i class="fas fa-star"></i> @Html.DisplayFor(model => model.StargazerCount)
+        </div>
+    </div>
+</div>

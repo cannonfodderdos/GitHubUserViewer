@@ -39,7 +39,6 @@ namespace UserViewer.Controllers.API
                 // If user hasn't been found log request and serve this to user
                 if (ex.StatusCode == (int)HttpStatusCode.NotFound)
                 {
-                    Configuration.Services.GetTraceWriter().Warn(Request, "UserService: User requested user that doesn't exist.", ex);
                     return NotFound();
                 }
 

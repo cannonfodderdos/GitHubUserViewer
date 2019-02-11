@@ -5,7 +5,6 @@ using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Tracing;
 using UserViewer.Handlers;
-using UserViewer.Logging;
 
 namespace UserViewer
 {
@@ -16,7 +15,6 @@ namespace UserViewer
             // Web API configuration and services
             config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
             config.Services.Replace(typeof(IExceptionLogger), new GlobalExceptionLogger());
-            config.Services.Replace(typeof(ITraceWriter), new TraceWriter());
 
             config.MapHttpAttributeRoutes();
 

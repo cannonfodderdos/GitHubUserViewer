@@ -206,7 +206,6 @@
     </Compile>
     <Compile Include="Handlers\GlobalExceptionHandler.cs" />
     <Compile Include="Handlers\GlobalExceptionLogger.cs" />
-    <Compile Include="Logging\TraceWriter.cs" />
     <Compile Include="Mapping\AutoMapperModule.cs" />
     <Compile Include="Mapping\MappingProfiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -258,6 +257,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\" />
+    <Folder Include="Logging\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -275,6 +275,7 @@
     <None Include="packages.config" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\UserData.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\RepoViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core.ApplicationServices\Core.ApplicationServices.csproj">
