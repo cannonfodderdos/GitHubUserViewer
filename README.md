@@ -2,7 +2,8 @@
 
 MVC/Web API Application which queries GitHubs User API, retrieves specific information and includes details of repos ordered by Stargazer count.
 
-The application is also visible on: https://githubuserviewer.azurewebsites.net
+The application is also available at https://githubuserviewer.azurewebsites.net
+
 Please note the GitHub API will deny requests to their Core API's after a certain limit is hit (around 60 in an hour for
 unauthenticated apps).
 
