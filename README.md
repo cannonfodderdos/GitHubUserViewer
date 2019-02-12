@@ -26,7 +26,7 @@ The app has two routes to query GitHubs API and view returned results.
 * ~/User/Index - Utilises Ajax form to call the Web.UserController and display result through Partial Views/DisplayTemplates
 * ~/User/Vue - Simple single page Vue.js application calling API.UserController
 
-The app utilisies Autofac as it's IoC container for DI, and Microsoft.Extensions.Logging for logging 
+The app utilises Autofac as it's IoC container for DI, and Microsoft.Extensions.Logging for logging 
 (with a basic implementation provided that writes to the VS output window). It also has an ExceptionHandler/ExceptionLogger
 for any unhandled exceptions, which hide sensitive error information from any API clients but still allow it to be recorded.
 
