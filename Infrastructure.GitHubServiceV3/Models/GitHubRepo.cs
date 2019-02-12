@@ -15,7 +15,7 @@ namespace Infrastructure.GitHubServiceV3.Models
         public int StargazersCount { get; set; }
         [JsonProperty("watchers_count")]
         public int WatchersCount { get; set; }
-        [JsonProperty("url")]
+        [JsonProperty("html_url")]
         public string URL { get; set; }
     }
 }
