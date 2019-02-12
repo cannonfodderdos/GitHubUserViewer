@@ -18,7 +18,7 @@ This solution was heavily inspired by the Onion Architecture
 
 The app has two routes to query GitHubs API and view returned results.
 
-* ~/User/Index - Utilises Ajax form to call the Web.UserController and display result through Partial Views
+* ~/User/Index - Utilises Ajax form to call the Web.UserController and display result through Partial Views/DisplayTemplates
 * ~/User/Vue - Simple single page Vue.js application calling API.UserController
 
 The app utilisies autofac as it's IoC container for DI, and Microsoft.Extensions.Logging for logging 
