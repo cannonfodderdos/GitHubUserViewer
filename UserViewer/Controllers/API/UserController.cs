@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.ApplicationServices;
 using Core.Common;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +18,13 @@ namespace UserViewer.Controllers.API
     {
         private UserService _service;
         private IMapper _mapper;
+        private ILogger _logger;
 
-        public UserController(UserService service, IMapper mapper)
+        public UserController(UserService service, IMapper mapper, ILogger logger)
         {
             _service = service;
             _mapper = mapper;
+            _logger = logger;
         }
 
         // GET: /api/user/:username
@@ -39,6 +42,7 @@ namespace UserViewer.Controllers.API
                 // If user hasn't been found log request and serve this to user
                 if (ex.StatusCode == (int)HttpStatusCode.NotFound)
                 {
+                    _logger.LogWarning(ex, $"Request for user that doesn't exist: {username}", null);
                     return NotFound();
                 }
 

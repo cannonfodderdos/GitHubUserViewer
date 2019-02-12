@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -12,9 +13,13 @@ namespace UserViewer
     {
         public static void Register(HttpConfiguration config)
         {
+            // Resolve Logger from IoC/DI Configuration for use in GlobalExceptionLogging
+            var resolver = config.DependencyResolver;
+            ILogger logger = (ILogger)resolver.GetService(typeof(ILogger));
+
             // Web API configuration and services
             config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
-            config.Services.Replace(typeof(IExceptionLogger), new GlobalExceptionLogger());
+            config.Services.Replace(typeof(IExceptionLogger), new GlobalExceptionLogger(logger));
 
             config.MapHttpAttributeRoutes();
 

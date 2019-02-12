@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net;
+using Test.UnitTests.Mocks;
 
 namespace Test.UnitTests.Core
 {
@@ -17,7 +18,9 @@ namespace Test.UnitTests.Core
         public async Task GetUser_ShouldReturnUserWithRepos()
         {
             // Arrange
-            UserService service = new UserService(new TestGitHubService());
+            var mockGitHubService = MockBuilder.BuildIGitHubService();
+            var gitHubService = mockGitHubService.Object;
+            UserService service = new UserService(gitHubService);
             string username = "robconery";
 
             // Act
@@ -33,7 +36,9 @@ namespace Test.UnitTests.Core
         public async Task GetUser_ShouldReturnUserWithoutRepos()
         {
             // Arrange
-            UserService service = new UserService(new TestGitHubService());
+            var mockGitHubService = MockBuilder.BuildIGitHubService();
+            var gitHubService = mockGitHubService.Object;
+            UserService service = new UserService(gitHubService);
             string username = "robconery";
 
             // Act

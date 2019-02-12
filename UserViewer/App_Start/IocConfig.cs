@@ -4,6 +4,7 @@ using Autofac.Integration.WebApi;
 using Core.ApplicationServices;
 using Core.Domain.Interfaces;
 using Infrastructure.GitHubServiceV3;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
+using UserViewer.Logging;
 
 namespace UserViewer
 {
@@ -24,6 +26,14 @@ namespace UserViewer
             // Register autofac for both Web API and MVC
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
+
+            // Register Logging
+            var loggerFactory = new LoggerFactory();
+            loggerFactory.AddProvider(new OutputLoggerProvider(LogLevel.Debug));
+
+            var logger = loggerFactory.CreateLogger<Logging.OutputLogger>();
+
+            builder.RegisterInstance<ILogger>(logger);
 
             // Register automapper module
             builder.RegisterModule(new Mapping.AutoMapperModule());

@@ -2,6 +2,7 @@
 using Core.ApplicationServices;
 using Core.Common;
 using Core.Domain.Entities;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -24,14 +25,11 @@ namespace Test.UnitTests.Controllers.Web
     [TestClass]
     public class UserControllerTests
     {
-        private UserService _userService = new UserService(new TestGitHubService());
-
         [TestMethod]
         public void UserControllerIndex()
         {
             // Arrange
-            var mapper = MockBuilder.BuildIMapper();
-            UserController controller = new UserController(_userService, mapper.Object);
+            var controller = ArrangeUserController();
 
             // Act
             var index = controller.Index();
@@ -44,8 +42,7 @@ namespace Test.UnitTests.Controllers.Web
         public async Task GetUser_ShouldReturnPartialViewWithUserAndRepos()
         {
             // Arrange
-            var mapper = MockBuilder.BuildIMapper();
-            UserController controller = new UserController(_userService, mapper.Object);
+            var controller = ArrangeUserController();
             string username = "robconery";
 
             // Act
@@ -61,8 +58,7 @@ namespace Test.UnitTests.Controllers.Web
         public async Task GetUser_ShouldReturnPartialViewWithUserAndNoRepos()
         {
             // Arrange
-            var mapper = MockBuilder.BuildIMapper();
-            UserController controller = new UserController(_userService, mapper.Object);
+            var controller = ArrangeUserController();
             string username = "robconery";
 
             // Act
@@ -78,8 +74,7 @@ namespace Test.UnitTests.Controllers.Web
         public async Task GetUser_EmptyPartialViewAndViewBagError()
         {
             // Arrange
-            var mapper = MockBuilder.BuildIMapper();
-            UserController controller = new UserController(_userService, mapper.Object);
+            var controller = ArrangeUserController();
             string username = "doesntexist";
 
             // Act
@@ -88,6 +83,21 @@ namespace Test.UnitTests.Controllers.Web
             // Assert
             Assert.IsNull(result.Model);
             Assert.IsNotNull(result.ViewBag.Error);
+        }
+
+        private UserController ArrangeUserController()
+        {
+            var mockGitHubService = MockBuilder.BuildIGitHubService();
+            var mockMapper = MockBuilder.BuildIMapper();
+            var mockLogger = new Mock<ILogger>();
+
+            var gitHubService = mockGitHubService.Object;
+            var mapper = mockMapper.Object;
+            var logger = mockLogger.Object;
+
+            UserService userService = new UserService(gitHubService);
+
+            return new UserController(userService, mapper, logger);
         }
     }
 }

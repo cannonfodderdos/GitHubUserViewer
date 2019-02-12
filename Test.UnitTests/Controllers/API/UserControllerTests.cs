@@ -2,6 +2,7 @@
 using Core.ApplicationServices;
 using Core.Common;
 using Core.Domain.Entities;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -23,14 +24,14 @@ namespace Test.UnitTests.Controllers.API
     [TestClass]
     public class UserControllerTests
     {
-        private UserService _userService = new UserService(new TestGitHubService());
+
+        #region Tests
 
         [TestMethod]
         public async Task GetUser_ShouldReturnUserWithRepos()
         {
             // Arrange
-            var mapper = MockBuilder.BuildIMapper();
-            UserController controller = new UserController(_userService, mapper.Object);
+            var controller = ArrangeUserController();
             string username = "robconery";
 
             // Act
@@ -48,8 +49,7 @@ namespace Test.UnitTests.Controllers.API
         public async Task GetUser_ShouldReturnUserWithoutRepos()
         {
             // Arrange
-            var mapper = MockBuilder.BuildIMapper();
-            UserController controller = new UserController(_userService, mapper.Object);
+            var controller = ArrangeUserController();
             string username = "robconery";
 
             // Act
@@ -65,8 +65,7 @@ namespace Test.UnitTests.Controllers.API
         public async Task GetUser_NotFoundResult()
         {
             // Arrange
-            var mapper = MockBuilder.BuildIMapper();
-            UserController controller = new UserController(_userService, mapper.Object);
+            var controller = ArrangeUserController();
             string username = "doesntexist";
 
             // Act
@@ -75,5 +74,26 @@ namespace Test.UnitTests.Controllers.API
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NotFoundResult));
         }
+
+        #endregion
+
+        #region Private Methods
+
+        private UserController ArrangeUserController()
+        {
+            var mockGitHubService = MockBuilder.BuildIGitHubService();
+            var mockMapper = MockBuilder.BuildIMapper();
+            var mockLogger = new Mock<ILogger>();
+
+            var gitHubService = mockGitHubService.Object;
+            var mapper = mockMapper.Object;
+            var logger = mockLogger.Object;
+
+            UserService userService = new UserService(gitHubService);
+
+            return new UserController(userService, mapper, logger);
+        }
+
+        #endregion
     }
 }

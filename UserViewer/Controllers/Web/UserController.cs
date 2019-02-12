@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.ApplicationServices;
 using Core.Common;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,11 +18,13 @@ namespace UserViewer.Controllers.Web
     {
         private UserService _service;
         private IMapper _mapper;
+        private ILogger _logger;
 
-        public UserController(UserService service, IMapper mapper)
+        public UserController(UserService service, IMapper mapper, ILogger logger)
         {
             _service = service;
             _mapper = mapper;
+            _logger = logger;
         }
 
         // GET: User
@@ -48,6 +51,9 @@ namespace UserViewer.Controllers.Web
                     error = $"No Github account found for user {username}. Please double check your entry and try again.";
 
                 ViewBag.Error = error;
+
+                _logger.LogWarning(ex, $"Request for user that doesn't exist: {username}", null);
+
                 return PartialView("UserData", null);
             }
         }
