@@ -2,6 +2,10 @@
 
 MVC/Web API Application which queries GitHubs User API, retrieves specific information and includes details of repos ordered by Stargazer count.
 
+The application is also visible on: https://githubuserviewer.azurewebsites.net
+Please note the GitHub API will deny requests to their Core API's after a certain limit is hit (around 60 in an hour for
+unauthenticated apps).
+
 ## Architecture
 
 This solution was heavily inspired by the Onion Architecture 
@@ -12,7 +16,7 @@ This solution was heavily inspired by the Onion Architecture
 * Core.Domain - Domain models and interfaces
 * Infrastructure.GitHubServiceV3 - Provides implementation detail of IGitHubService interface, and converts responses to domain models
 * Test.UnitTests - Unit tests Core and MVC/Web API controllers using Moq
-* Web.UserViewer - MVC (.NET Framework) web application
+* Web.UserViewer - MVC (.NET Framework 4.7.2) web application
 
 ## Web Application
 
