@@ -317,6 +317,7 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\UserData.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\RepoViewModel.cshtml" />
+    <Content Include="Views\User\Vue.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core.ApplicationServices\Core.ApplicationServices.csproj">

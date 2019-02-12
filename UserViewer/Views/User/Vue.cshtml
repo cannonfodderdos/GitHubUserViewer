@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "GitHub User Viewer - Vue";
+}
+
+<div id="app">
+    <div class="row">
+        <div class="col-12">
+            <div class="jumbotron mt-5">
+                <h1 class="display-4">GitHub User Viewer</h1>
+                <p class="lead">
+                    This simple application queries GitHubs public API to retrieve information on the user entered.<br />
+                    There is also a MVC Razor version available @Html.ActionLink("here", "Index").
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center">
+            <hr class="mb-4 mt-0">
+            <form class="form-inline justify-content-center">
+                <label class="sr-only" for="username">Username</label>
+                <input v-model="username" type="text" class="form-control mr-sm-2" placeholder="Username" />
+                <label class="form-check-label mr-sm-2" for="includeRepos">Include Repositories</label>
+                <input v-model="includeRepos" type="checkbox" class="form-check-input mr-sm-2" />
+                <button v-on:click="checkForm" type="button" class="btn btn-primary">Submit</button>
+            </form>
+            <hr class="my-4">
+        </div>
+    </div>
+    <div v-if="error" class="row">
+        <div class="col-12">
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+        </div>
+    </div>
+    <div v-if="loading" class="row">
+        <div class="col-12 text-center">
+            <i class="fa fa-spinner fa-4x fa-spin"></i>
+        </div>
+    </div>
+    <div v-if="user" class="row">
+        <div class="col-md-8">
+            <h2 class="display-4">{{ user.Name }}</h2>
+            <p v-if="user.Location" class="lead mb-0">{{ user.Location }}</p><br />
+        </div>
+        <div class="col-md-4 text-right">
+            <img v-bind:src="user.Avatar" alt="Avatar" class="img-thumbnail mb-4" style="width:150px; height:150px;" />
+        </div>
+
+        <div class="col-12">
+            <div class="row">
+                <div v-for="repo of user.Repos"  class="col-12 col-sm-6">
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ repo.Name }} </h5>
+                            <p class="card-text">
+                                <a v-bind:href="repo.URL" title="Repository URL" target="_blank">{{ repo.URL }}</a>
+                            </p>
+                            <i class="fas fa-star"></i> {{ repo.StargazerCount }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    username: '',
+                    user: null,
+                    error: null,
+                    includeRepos: true,
+                    loading: false
+                }
+            },
+            methods: {
+                checkForm: function (e) {
+
+                    // Reset data
+                    this.loading = true;
+                    this.error = null;
+                    this.user = null;
+
+                    // Ensure we have an input for username
+                    if (!this.username || this.username === '') {
+                        this.error = 'Please enter a username';
+                        this.loading = false;
+                        return false;
+                    }
+
+                    // Use axios to query Web API controller
+                    axios
+                        .get('http://localhost:52743/api/user/' + this.username + '?includeRepos=' + this.includeRepos)
+                        .then(response => {
+                            this.user = response.data;
+                            this.loading = false;
+                        })
+                        .catch(error => {
+
+                            // On error check if it was 404 (user not found)
+                            if (error.response.status === 404) {
+                                this.error = 'No Github account found for user ' + this.username + '. Please double check your entry and try again.';
+                            }
+                            else {
+                                this.error = error;
+                            }
+
+                            this.loading = false;
+                        })
+                    .bind(this)
+                }
+            }
+        })
+    </script>
+}
+

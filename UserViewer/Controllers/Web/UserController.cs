@@ -33,6 +33,11 @@ namespace UserViewer.Controllers.Web
             return View();
         }
 
+        public ActionResult Vue()
+        {
+            return View();
+        }
+
         public async Task<PartialViewResult> GetUser(string username, bool includeRepos)
         {
             try
