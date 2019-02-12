@@ -318,6 +318,7 @@
     <Content Include="Views\User\UserData.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\RepoViewModel.cshtml" />
     <Content Include="Views\User\Vue.cshtml" />
+    <None Include="Properties\PublishProfiles\GitHubUserViewer - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core.ApplicationServices\Core.ApplicationServices.csproj">

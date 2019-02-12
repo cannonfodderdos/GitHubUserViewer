@@ -38,3 +38,4 @@ and then Domain to client while still maintaining a testable dependency free cod
 
 * IntegrationTests
 * Refactor Vue.js application to use templates
+* Environment specific config files

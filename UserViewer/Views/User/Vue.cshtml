@@ -96,9 +96,13 @@
                         return false;
                     }
 
+                    // Get origin url for website domain
+                    // This should be accessed via environment config
+                    var url = window.location.origin;
+
                     // Use axios to query Web API controller
                     axios
-                        .get('http://localhost:52743/api/user/' + this.username + '?includeRepos=' + this.includeRepos)
+                        .get(url + '/api/user/' + this.username + '?includeRepos=' + this.includeRepos)
                         .then(response => {
                             this.user = response.data;
                             this.loading = false;
@@ -114,8 +118,7 @@
                             }
 
                             this.loading = false;
-                        })
-                    .bind(this)
+                        });
                 }
             }
         })
