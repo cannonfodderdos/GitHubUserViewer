@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 /UserViewer/Properties/PublishProfiles/GitHubUserViewer - Web Deploy.pubxml
+/UserViewer/Properties/PublishProfiles/UserViewer20190211115428 - Web Deploy.pubxml

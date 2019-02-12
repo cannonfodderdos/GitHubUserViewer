@@ -47,17 +47,28 @@ namespace UserViewer.Controllers.Web
 
                 return PartialView("UserData", user);
             }
-            catch (ApiException ex)
+            catch (Exception exception)
             {
-                var error = "There has been an issue with this request. If this continues please contact support@joebloggs.com.";
+                string error = "There has been an issue with this request. If this continues please contact support@joebloggs.com.";
 
-                // If user hasn't been found log request and serve this to user
-                if (ex.StatusCode == (int)HttpStatusCode.NotFound)
-                    error = $"No Github account found for user {username}. Please double check your entry and try again.";
+                if (exception.GetType() == typeof(ApiException))
+                {
+                    var ex = exception as ApiException;
+
+                    // If user hasn't been found log request and serve this to user
+                    if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+                    {
+                        error = $"No Github account found for user {username}. Please double check your entry and try again.";
+                        _logger.LogWarning(ex, $"Request for user that doesn't exist: {username}", null);
+                    }
+                }
+                else
+                {
+                    // There was an unexpected issue. Log as error.
+                    _logger.LogError(exception, exception.Message, null);
+                }
 
                 ViewBag.Error = error;
-
-                _logger.LogWarning(ex, $"Request for user that doesn't exist: {username}", null);
 
                 return PartialView("UserData", null);
             }
