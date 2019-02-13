@@ -18,6 +18,7 @@ namespace Infrastructure.GitHubServiceV3
     public class GitHubService : IGitHubService
     {
         private HttpClient _client;
+        
         public GitHubService()
         {
             // User-Agent required by GitHub API otherwise request is Forbidden (403)
